@@ -12,13 +12,13 @@
   color: $white;
 
   @media (min-width: 480px) {
-    top: 1rem;
+    top: 3rem;
   }
   .card-front {
     @include card("./images/bg-card-front.png");
     position: relative;
     top: -3.5rem;
-    padding: 1rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

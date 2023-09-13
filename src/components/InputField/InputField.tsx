@@ -1,7 +1,7 @@
 import "./InputField.scss";
 
 type Props = {
-  label: string;
+  label?: string;
   placeholder?: string;
   use: string;
   type: string;

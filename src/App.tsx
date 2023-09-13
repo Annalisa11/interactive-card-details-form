@@ -1,6 +1,7 @@
 import "./App.scss";
 import Button from "./components/Button";
 import Cards from "./components/Cards";
+import DateInputField from "./components/DateInputField";
 import InputField from "./components/InputField/InputField";
 
 function App() {
@@ -23,6 +24,15 @@ function App() {
               type={"text"}
               placeholder='e.g 1234 5678 9123 0000'
             />
+            <div className='last-input-row'>
+              <DateInputField label={"label"} />
+              <InputField
+                label='Cvc'
+                use='cvc'
+                type='text'
+                placeholder='e.g 123'
+              />
+            </div>
             <Button label='Confirm' />
           </form>
         </div>

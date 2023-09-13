@@ -1,0 +1,29 @@
+@import "../../General.scss";
+
+.date-input-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem 0;
+  margin-right: 10px;
+  width: 50%;
+  flex-shrink: 0;
+
+  label {
+    display: block;
+    font-size: large;
+    font-variant: small-caps;
+  }
+
+  & div {
+    flex-direction: row;
+    display: flex;
+
+    // &:nth-child(2n) input {
+    //   margin-left: 10px;
+    // }
+    &:nth-child(n) {
+      padding: 0;
+    }
+  }
+}

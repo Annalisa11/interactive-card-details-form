@@ -2,15 +2,19 @@
 
 .inputfield {
   padding: 1rem 0;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  width: 100%;
 
   label {
     display: block;
-    font-size: xx-large;
+    font-size: large;
     font-variant: small-caps;
   }
 
   input {
-    font-size: 1.5em;
+    font-size: large;
     padding: 0.5em;
     border: 1px solid $neutral-light;
     border-radius: 8px;
@@ -19,6 +23,10 @@
 
     &::placeholder {
       color: $neutral-dark;
+    }
+
+    &[name="y-date"] {
+      margin-left: 10px;
     }
   }
 }
