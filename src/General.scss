@@ -1,0 +1,75 @@
+// Mixins
+@mixin panel-color($color) {
+  background-color: rgba($color, 0.06);
+  color: $color;
+}
+
+@mixin h2-header($color, $align: center) {
+  margin: 0;
+  margin-bottom: 25px;
+  color: $color;
+  font-weight: normal;
+  text-align: $align;
+}
+
+@mixin card($img-path) {
+  background-image: url($img-path);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 80%;
+  aspect-ratio: 1.82 / 1;
+
+  @media (min-width: 480px) {
+    width: 70%;
+  }
+}
+
+// Colors
+
+/// Pirmary
+$primary-red: hsl(0, 100%, 66%);
+
+/// Gradients
+$gradient-one: hsl(249, 99%, 64%);
+$gradient-two: hsl(278, 94%, 30%);
+
+/// Neutral
+$white: hsl(0, 0%, 100%);
+$neutral-light: hsl(270, 3%, 87%);
+$neutral-dark: hsl(279, 6%, 55%);
+$neutral-very-dark: hsl(278, 68%, 11%);
+
+$neutral-dark-faded: rgba($neutral-dark, 0.5);
+
+// Typography
+
+/// Body Copy
+$body-font-size: 18px;
+
+///Font
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap");
+$font-family: "Space Grotesk", sans-serif;
+
+// Border-Radius
+$border-radius-s: 10px;
+$border-radius-m: 15px;
+$border-radius-l: 25px;
+
+p {
+  margin: 0;
+  padding: 0;
+  font-size: $body-font-size;
+}
+
+h1 {
+  margin-bottom: 25px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+// Extensions
+%gradient-background {
+  background: linear-gradient(0dg, $gradient-one, $gradient-two);
+}
