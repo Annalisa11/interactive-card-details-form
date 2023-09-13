@@ -1,0 +1,46 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 5% auto 5%;
+  grid-template-rows: 5% 30% 5% auto;
+  grid-auto-flow: row;
+  border: 1px solid blue;
+  height: 100vh;
+
+  @media (min-width: 600px) {
+    grid-auto-flow: row;
+  }
+}
+
+.cards {
+  grid-column: 2 / 3;
+  grid-row: 2 / 4;
+  background-color: seagreen;
+  z-index: 1;
+}
+
+.form {
+  border: 1px solid red;
+}
+
+.banner {
+  background-color: bisque;
+  grid-column: 1 / -1;
+  grid-row: 1 / 3;
+  @media (min-width: 600px) {
+    grid-auto-flow: row;
+    background-color: gold;
+  }
+}
+
+.card-form {
+  background-color: aquamarine;
+  grid-row: 3 / -1;
+  grid-column: 1 / -1;
+}
+
+.inputfield {
+}
