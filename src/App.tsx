@@ -16,6 +16,26 @@ function App() {
   const [expDate, setExpDate] = useState<expDate>({ month: "", year: "" });
   const [verificationNumber, setVerificationNumber] = useState<string>("");
 
+  const removeSpaces = (s: string): string => {
+    return s.replace(/\s/g, "");
+  };
+
+  const validateCardNumber = (number: string): boolean => {
+    const num = removeSpaces(number);
+    const onlyD = /^\d+$/.test(num);
+
+    if (num.length > 16) return false;
+    if (onlyD) return false;
+    else return true;
+  };
+
+  const formatCardNumber = (number: string) => {
+    const strippedNum = removeSpaces(number);
+    const devidedNum = strippedNum.match(/.{1,4}/g);
+    if (devidedNum) return devidedNum?.join(" ");
+    else return "";
+  };
+
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
     // setInputValue(event.target.value);
   };
@@ -57,6 +77,9 @@ function App() {
               placeholder='e.g 1234 5678 9123 0000'
               inputValue={cardNumber}
               onChangeState={setCardNumber}
+              validateInput={validateCardNumber}
+              formatInput={formatCardNumber}
+              errorMsg={"wrong format, numbers only"}
             />
             <div className='last-input-row'>
               <DateInputField
@@ -71,6 +94,7 @@ function App() {
                 placeholder='e.g 123'
                 inputValue={verificationNumber}
                 onChangeState={setVerificationNumber}
+                errorMsg={"can't be blank"}
               />
             </div>
             <Button label='Confirm' />
