@@ -10,6 +10,11 @@ export interface expDate {
   year: string;
 }
 
+export interface validationResponse {
+  valid: boolean;
+  errorMsg: string;
+}
+
 function App() {
   const [name, setName] = useState<string>("");
   const [cardNumber, setCardNumber] = useState<string>("");
@@ -20,19 +25,28 @@ function App() {
     return s.replace(/\s/g, "");
   };
 
+  const testForOnlyDigits = (s: string): boolean => {
+    return /^\d+$/.test(s);
+  };
+
   const validateCardNumber = (number: string): boolean => {
     const num = removeSpaces(number);
-    const onlyD = /^\d+$/.test(num);
 
-    if (num.length > 16) return false;
-    if (onlyD) return false;
+    if (testForOnlyDigits(num)) return false;
     else return true;
   };
+
+  // const validateForNumbersAndSpaces = (num: string): validationResponse => {
+  //   removeSpaces;
+  //   const onlyD = testForOnlyDigits(num);
+  //   if (!onlyD) return { valid: false, errorMsg: "only numbers allowed" };
+  //   if
+  // };
 
   const formatCardNumber = (number: string) => {
     const strippedNum = removeSpaces(number);
     const devidedNum = strippedNum.match(/.{1,4}/g);
-    if (devidedNum) return devidedNum?.join(" ");
+    if (devidedNum) return devidedNum.join(" ");
     else return "";
   };
 
@@ -76,16 +90,19 @@ function App() {
               type={"text"}
               placeholder='e.g 1234 5678 9123 0000'
               inputValue={cardNumber}
+              errorMsg={"wrong format, numbers only"}
+              maxLength={16 + 3}
               onChangeState={setCardNumber}
               validateInput={validateCardNumber}
               formatInput={formatCardNumber}
-              errorMsg={"wrong format, numbers only"}
             />
             <div className='last-input-row'>
               <DateInputField
                 label={"label"}
                 onChange={handleExpDate}
                 inputValue={expDate}
+                maxLength={2}
+                validateInput={validateCardNumber}
               />
               <InputField
                 label='Cvc'
@@ -93,8 +110,10 @@ function App() {
                 type='text'
                 placeholder='e.g 123'
                 inputValue={verificationNumber}
+                errorMsg={"only numbers allowed"}
+                maxLength={3}
                 onChangeState={setVerificationNumber}
-                errorMsg={"can't be blank"}
+                validateInput={validateCardNumber}
               />
             </div>
             <Button label='Confirm' />

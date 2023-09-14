@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./InputField.scss";
-import { error } from "console";
 
 type Props = {
   label?: string;
@@ -9,6 +8,7 @@ type Props = {
   type: string;
   inputValue: string;
   errorMsg?: string;
+  maxLength?: number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeState?: React.Dispatch<React.SetStateAction<string>>;
   validateInput?: (input: string) => boolean;
@@ -22,21 +22,35 @@ const InputField = ({
   type,
   inputValue,
   errorMsg,
+  maxLength,
   onChange,
   onChangeState,
   validateInput,
   formatInput,
 }: Props): JSX.Element => {
   const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>(errorMsg ?? "");
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     let eventValue = event.target.value;
-    if (validateInput) setError(validateInput(event.target.value));
+    if (validateInput) {
+      setError(validateInput(event.target.value));
+      setErrorMessage(errorMsg ?? "");
+      console.log(`handle input:: msg: ${errorMsg}, mess: ${errorMessage}`);
+    }
     if (formatInput) eventValue = formatInput(eventValue);
     if (onChangeState) onChangeState(eventValue);
     else if (onChange) onChange(event);
     else return;
   };
+
+  const handleBlankInput = () => {
+    if (inputValue == "") {
+      setErrorMessage("can't be blank");
+      setError(true);
+    }
+  };
+
   return (
     <div className={`inputfield ${!!error ? "" : "error"}`}>
       <label htmlFor={`${use}`}>{label}</label>
@@ -45,9 +59,11 @@ const InputField = ({
         name={`${use}`}
         placeholder={`${placeholder}`}
         value={inputValue}
+        maxLength={maxLength}
         onChange={handleInput}
+        onBlur={handleBlankInput}
       />
-      {!!error && inputValue && <div className='errorMsg'>{errorMsg}</div>}
+      {!!error && <div className='errorMsg'>{errorMessage}</div>}
     </div>
   );
 };
