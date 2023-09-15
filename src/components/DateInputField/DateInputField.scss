@@ -9,21 +9,34 @@
   width: 50%;
   flex-shrink: 0;
 
+  div.inputfield input {
+  }
+
   label {
     display: block;
     font-size: large;
     font-variant: small-caps;
+    border: 1px solid firebrick;
   }
+  .error {
+    input {
+      border: 1px solid red;
+    }
+  }
+  input {
+    font-size: large;
+    padding: 0.5em;
+    border: 1px solid $neutral-light;
+    border-radius: 8px;
+    width: 100%;
+    margin-top: 0.5rem;
 
-  & div {
-    flex-direction: row;
-    display: flex;
+    &::placeholder {
+      color: $neutral-dark;
+    }
 
-    // &:nth-child(2n) input {
-    //   margin-left: 10px;
-    // }
-    &:nth-child(n) {
-      padding: 0;
+    &[name="y-date"] {
+      margin-left: 10px;
     }
   }
 }

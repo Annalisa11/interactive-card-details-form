@@ -29,19 +29,12 @@ function App() {
     return /^\d+$/.test(s);
   };
 
-  const validateCardNumber = (number: string): boolean => {
+  const validateCardNumber = (number: string) => {
     const num = removeSpaces(number);
 
     if (testForOnlyDigits(num)) return false;
     else return true;
   };
-
-  // const validateForNumbersAndSpaces = (num: string): validationResponse => {
-  //   removeSpaces;
-  //   const onlyD = testForOnlyDigits(num);
-  //   if (!onlyD) return { valid: false, errorMsg: "only numbers allowed" };
-  //   if
-  // };
 
   const formatCardNumber = (number: string) => {
     const strippedNum = removeSpaces(number);
@@ -54,13 +47,18 @@ function App() {
     // setInputValue(event.target.value);
   };
 
-  const handleExpDate = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleExpDate = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): boolean => {
     const { name, value } = event.target;
-    console.log("event.target", name, value);
-    const month = name == "m-date" ? value : expDate.month;
-    const year = name == "y-date" ? value : expDate.year;
-    setExpDate({ month: month, year: year });
-    console.log("state", expDate);
+
+    const regex = /^(\s*|\d+)$/;
+    if (regex.test(value)) {
+      const month = name == "m-date" ? value : expDate.month;
+      const year = name == "y-date" ? value : expDate.year;
+      setExpDate({ month: month, year: year });
+    }
+    return false;
   };
 
   return (
@@ -102,7 +100,8 @@ function App() {
                 onChange={handleExpDate}
                 inputValue={expDate}
                 maxLength={2}
-                validateInput={validateCardNumber}
+                validateInput={handleExpDate}
+                setFunction={setExpDate}
               />
               <InputField
                 label='Cvc'
