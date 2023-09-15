@@ -26,6 +26,8 @@
 
   @media (min-width: 600px) {
     flex-direction: row;
+    width: 70rem;
+    height: 40rem;
   }
 }
 
@@ -40,12 +42,21 @@
   @media (min-width: 480px) {
     height: 25rem;
   }
+  @media (min-width: 600px) {
+    height: 40rem;
+    width: 35%;
+  }
 }
 
 .form {
   align-items: center;
   margin: 0 1rem;
   width: 100%;
+
+  @media (min-width: 600px) {
+    width: 50%;
+    margin: auto 6rem auto auto;
+  }
 }
 
 .card-form {

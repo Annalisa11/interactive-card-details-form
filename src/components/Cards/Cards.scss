@@ -15,6 +15,17 @@
   @media (min-width: 480px) {
     top: 3rem;
   }
+
+  @media (min-width: 600px) {
+    width: 25rem;
+    margin: 0 auto 0 5rem;
+    // border: 1px solid yellow;
+    height: 100%;
+    justify-content: space-between;
+    top: 0;
+    padding: 8rem 0;
+  }
+
   .card-front {
     @include card("./images/bg-card-front.png");
     position: relative;
@@ -23,6 +34,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    order: 1;
+
+    @media (min-width: 600px) {
+      top: 0;
+      width: 80%;
+      order: 0;
+    }
 
     img {
       height: 60%;
@@ -39,6 +57,12 @@
     @include card("./images/bg-card-back.png");
     align-self: flex-end;
     position: relative;
+    order: 0;
+
+    @media (min-width: 600px) {
+      width: 80%;
+      order: 1;
+    }
 
     .pin {
       position: absolute;
