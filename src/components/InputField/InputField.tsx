@@ -51,8 +51,11 @@ const InputField = ({
     }
   };
 
+  console.log("error", error);
+  console.log("  ");
+
   return (
-    <div className={`inputfield ${!!error ? "" : "error"}`}>
+    <div className={`inputfield ${error ? "error" : ""}`}>
       <label htmlFor={`${use}`}>{label}</label>
       <input
         type={`${type}`}
@@ -63,7 +66,7 @@ const InputField = ({
         onChange={handleInput}
         onBlur={handleBlankInput}
       />
-      {!!error && <div className='errorMsg'>{errorMessage}</div>}
+      {error && <div className='errorMsg'>{errorMessage}</div>}
     </div>
   );
 };

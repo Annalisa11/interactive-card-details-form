@@ -43,8 +43,8 @@ function App() {
     else return "";
   };
 
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    // setInputValue(event.target.value);
+  const validateInputString = (input: string) => {
+    return !/^[A-Za-z\s]*$/.test(input);
   };
 
   const handleExpDate = (
@@ -79,8 +79,9 @@ function App() {
               type='text'
               placeholder='e.g Jane Appleseed'
               inputValue={name}
-              onChange={handleInput}
+              validateInput={validateInputString}
               onChangeState={setName}
+              errorMsg='no numbers allowed'
             />
             <InputField
               label='Card Number'

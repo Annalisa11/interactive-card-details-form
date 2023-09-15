@@ -28,8 +28,8 @@ const DateInputField = ({
   setFunction,
 }: Props): JSX.Element => {
   const [error, setError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>(errorMsg ?? "");
-  const [errorInput, setErrorInput] = useState<boolean>(false);
+  const [errorInputM, setErrorInputM] = useState<boolean>(false);
+  const [errorInputY, setErrorInputY] = useState<boolean>(false);
 
   const testForOnlyDigits = (s: string): boolean => {
     return /^\d+$/.test(s);
@@ -45,10 +45,12 @@ const DateInputField = ({
   const handleBlankInput = () => {
     if (inputValue.month == "") {
       console.log("month blank");
+      setErrorInputM(true);
       setError(true);
     }
     if (inputValue.year == "") {
       console.log("year blank");
+      setErrorInputY(true);
       setError(true);
     }
 
@@ -58,7 +60,10 @@ const DateInputField = ({
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     let eventValue = event.target.value;
     if (validateInput) {
-      setError(validateInput(event));
+      const invalidInput = validateInput(event);
+      setError(invalidInput);
+      setErrorInputM(invalidInput);
+      setErrorInputY(invalidInput);
     }
     if (formatInput) eventValue = formatInput(eventValue);
     if (onChangeState) {
@@ -70,10 +75,9 @@ const DateInputField = ({
 
   return (
     <div className='date-input-field'>
-      <div>
-        <label htmlFor={`m-date`}>Exp.date (MM/YY)</label>
-        <div className={` ${error ? (errorInput ? "error" : "") : ""}`}>
-          {/*error && errorinput*/}
+      <label htmlFor={`m-date`}>Exp.date (MM/YY)</label>
+      <div className='date-input-containter'>
+        <div className={` ${error ? (errorInputM ? "error" : "") : ""}`}>
           <input
             name='m-date'
             type='text'
@@ -83,10 +87,8 @@ const DateInputField = ({
             onChange={handleInput}
             onBlur={handleBlankInput}
           />
-          {error && inputValue && <div className='errorMsg'>{errorMsg}</div>}
-          {error && <div>hallo</div>}
         </div>
-        <div className={` ${error ? (errorInput ? "error" : "") : ""}`}>
+        <div className={` ${error ? (errorInputY ? "error" : "") : ""}`}>
           <input
             name='y-date'
             type='text'
@@ -97,7 +99,10 @@ const DateInputField = ({
             onBlur={handleBlankInput}
           />
         </div>
-        {/* <InputField
+      </div>
+      {error && <div className='errorMsg'>can't be blank</div>}
+
+      {/* <InputField
           use='m-date'
           type='text'
           placeholder='MM'
@@ -115,8 +120,7 @@ const DateInputField = ({
           maxLength={maxLength}
           validateInput={validateInput}
         /> */}
-        {/* {!!error && <div className='errorMsg'>{errorMessage}</div>} */}
-      </div>
+      {/* {!!error && <div className='errorMsg'>{errorMessage}</div>} */}
     </div>
   );
 };
