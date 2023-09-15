@@ -36,6 +36,11 @@
     justify-content: space-between;
     order: 1;
 
+    p {
+      font-size: larger;
+      color: $white;
+    }
+
     @media (min-width: 600px) {
       top: 0;
       width: 80%;
@@ -50,6 +55,17 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      text-transform: uppercase;
+
+      .name {
+        overflow: hidden;
+        margin-right: 10px;
+      }
+
+      p {
+        font-size: small;
+        color: $neutral-light;
+      }
     }
   }
 
@@ -66,8 +82,9 @@
 
     .pin {
       position: absolute;
-      top: 43%;
-      left: 75%;
+      top: 44%;
+      left: 77%;
+      font-size: smaller;
     }
   }
 }

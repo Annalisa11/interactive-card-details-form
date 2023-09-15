@@ -43,6 +43,8 @@
     height: 25rem;
   }
   @media (min-width: 600px) {
+    background-image: url("./images/bg-main-desktop.png");
+    border-radius: 20px 0 0 20px;
     height: 40rem;
     width: 35%;
   }
