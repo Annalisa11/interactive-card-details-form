@@ -1,0 +1,19 @@
+@import "../../General.scss";
+
+input {
+  font-size: large;
+  padding: 0.5em;
+  border: 1px solid $neutral-light;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 0.5rem;
+
+  &::placeholder {
+    color: $neutral-dark;
+  }
+
+  &:focus {
+    border-color: $gradient-one;
+    outline: 0;
+  }
+}

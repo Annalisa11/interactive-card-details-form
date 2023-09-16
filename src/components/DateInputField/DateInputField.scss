@@ -16,40 +16,10 @@
     grid-gap: 10px;
     width: 100%;
 
-    .error {
-      input {
-        border: 1px solid red;
-      }
-    }
-    input {
-      font-size: large;
-      padding: 0.5em;
-      border: 1px solid $neutral-light;
-      border-radius: 8px;
-      width: 100%;
-      margin-top: 0.5rem;
-
-      &::placeholder {
-        color: $neutral-dark;
-      }
-
-      &[name="y-date"] {
-        // margin-left: 10px;
-      }
-
-      &:focus {
-        border-color: $gradient-one;
-        outline: 0;
-      }
-    }
+    @include inputFieldLabel;
   }
-  label {
-    display: block;
-    font-size: large;
-    font-variant: small-caps;
-  }
+}
 
-  .errorMsg {
-    color: $primary-red;
-  }
+.errorMsg {
+  color: $primary-red;
 }

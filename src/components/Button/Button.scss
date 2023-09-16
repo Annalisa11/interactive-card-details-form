@@ -13,7 +13,8 @@
   letter-spacing: 0.1em;
 
   &:hover {
-    @extend .gradient-background;
+    background: linear-gradient(0deg, $gradient-one 0%, $gradient-two 100%);
+    cursor: pointer;
   }
 
   .label {
