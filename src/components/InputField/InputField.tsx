@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./InputField.scss";
+import Input from "../Input/Input";
 
 type Props = {
   label?: string;
@@ -33,35 +34,33 @@ const InputField = ({
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     let eventValue = event.target.value;
+
     if (validateInput) {
-      setError(validateInput(event.target.value));
+      setError(validateInput(eventValue));
       setErrorMessage(errorMsg ?? "");
-      console.log(`handle input:: msg: ${errorMsg}, mess: ${errorMessage}`);
     }
+
     if (formatInput) eventValue = formatInput(eventValue);
+
     if (onChangeState) onChangeState(eventValue);
     else if (onChange) onChange(event);
-    else return;
   };
 
   const handleBlankInput = () => {
-    if (inputValue == "") {
+    if (inputValue === "") {
       setErrorMessage("can't be blank");
       setError(true);
     }
   };
 
-  console.log("error", error);
-  console.log("  ");
-
   return (
     <div className={`inputfield ${error ? "error" : ""}`}>
       <label htmlFor={`${use}`}>{label}</label>
-      <input
+      <Input
         type={`${type}`}
-        name={`${use}`}
+        use={`${use}`}
         placeholder={`${placeholder}`}
-        value={inputValue}
+        inputValue={inputValue}
         maxLength={maxLength}
         onChange={handleInput}
         onBlur={handleBlankInput}

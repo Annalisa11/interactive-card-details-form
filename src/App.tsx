@@ -25,26 +25,23 @@ function App() {
     return s.replace(/\s/g, "");
   };
 
-  const testForOnlyDigits = (s: string): boolean => {
-    return /^\d+$/.test(s);
+  const validateInputNumbers = (input: string): boolean => {
+    return !/^\d+$/.test(input);
   };
 
-  const validateCardNumber = (number: string) => {
+  const validateInputString = (input: string): boolean => {
+    return !/^[A-Za-z\s]*$/.test(input);
+  };
+
+  const validateCardNumber = (number: string): boolean => {
     const num = removeSpaces(number);
-
-    if (testForOnlyDigits(num)) return false;
-    else return true;
+    return validateInputNumbers(num);
   };
 
-  const formatCardNumber = (number: string) => {
+  const formatCardNumber = (number: string): string => {
     const strippedNum = removeSpaces(number);
     const devidedNum = strippedNum.match(/.{1,4}/g);
-    if (devidedNum) return devidedNum.join(" ");
-    else return "";
-  };
-
-  const validateInputString = (input: string) => {
-    return !/^[A-Za-z\s]*$/.test(input);
+    return devidedNum ? devidedNum.join(" ") : "";
   };
 
   const handleExpDate = (
@@ -58,7 +55,7 @@ function App() {
       const year = name == "y-date" ? value : expDate.year;
       setExpDate({ month: month, year: year });
     }
-    return false;
+    return false; //needer for the error recognition (there's never an error, since it's impossible to make one)
   };
 
   return (
@@ -85,7 +82,7 @@ function App() {
             />
             <InputField
               label='Card Number'
-              use='iban'
+              use='cardNr'
               type={"text"}
               placeholder='e.g 1234 5678 9123 0000'
               inputValue={cardNumber}
@@ -98,11 +95,10 @@ function App() {
             <div className='last-input-row'>
               <DateInputField
                 label={"label"}
-                onChange={handleExpDate}
                 inputValue={expDate}
                 maxLength={2}
+                onChange={handleExpDate}
                 validateInput={handleExpDate}
-                setFunction={setExpDate}
               />
               <InputField
                 label='Cvc'

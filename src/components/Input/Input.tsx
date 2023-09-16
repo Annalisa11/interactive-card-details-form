@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./InputField.scss";
+import "./Input.scss";
 
 type Props = {
   label?: string;
@@ -14,6 +14,7 @@ type Props = {
   validateInput?: (input: string) => boolean;
   formatInput?: (input: string) => string;
   handleInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
 };
 
 const Input = ({
@@ -28,6 +29,7 @@ const Input = ({
   onChangeState,
   validateInput,
   formatInput,
+  onBlur,
 }: Props): JSX.Element => {
   return (
     <input
@@ -36,6 +38,8 @@ const Input = ({
       placeholder={`${placeholder}`}
       value={inputValue}
       maxLength={maxLength}
+      onChange={onChange}
+      onBlur={onBlur}
     />
   );
 };
