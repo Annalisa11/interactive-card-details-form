@@ -19,17 +19,11 @@
     font-size: large;
     font-variant: small-caps;
   }
+}
 
-  &.error {
-    input {
-      border: 1px solid red;
-    }
-  }
-
-  & .error {
-    input {
-      border: 1px solid red;
-    }
+@mixin errorBorder {
+  input {
+    border: 1px solid red;
   }
 }
 

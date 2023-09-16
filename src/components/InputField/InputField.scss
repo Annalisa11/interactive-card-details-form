@@ -9,6 +9,10 @@
   height: 7em;
 
   @include inputFieldLabel;
+
+  &.error {
+    @include errorBorder;
+  }
 }
 
 .errorMsg {

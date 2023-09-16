@@ -41,7 +41,7 @@ function App() {
   const formatCardNumber = (number: string): string => {
     const strippedNum = removeSpaces(number);
     const devidedNum = strippedNum.match(/.{1,4}/g);
-    return devidedNum ? devidedNum.join(" ") : "";
+    return devidedNum ? devidedNum.join(" ").toUpperCase() : "";
   };
 
   const handleExpDate = (
