@@ -30,7 +30,7 @@ Users should be able to:
   
 ### Screenshots
 
-<img src="./src/design/design-desktop.png" alt="drawing" width="400" display="inline block"/> <img src="./src/design/design-desktop-i.png" alt="drawing" width="400" display="inline block"/><img src="./src/design/design-mobile.png" alt="drawing" width="200" display="inline block"/>
+<img src="./src/design/Screenshots/design-desktop.png" alt="drawing" width="400" display="inline block"/> <img src="./src/design/Screenshots/design-desktop-i.png" alt="drawing" width="400" display="inline block"/><img src="./src/design/Screenshots/design-mobile.png" alt="drawing" width="200" display="inline block"/>
 
 ## ⚒️ My process
 
