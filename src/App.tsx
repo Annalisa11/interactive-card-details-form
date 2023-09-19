@@ -4,6 +4,10 @@ import Button from "./components/Button";
 import Cards from "./components/Cards";
 import DateInputField from "./components/DateInputField";
 import InputField from "./components/InputField/InputField";
+import { useForm, useWatch } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
+import "./components/Input/Input.scss";
+import "./components/InputField/InputField.scss";
 
 export interface expDate {
   month: string;
@@ -15,11 +19,22 @@ export interface validationResponse {
   errorMsg: string;
 }
 
+export interface formData {
+  name: string;
+  cardNumber: string;
+  expDateMonth: string;
+  expDateYear: string;
+  cvc: string;
+}
+
 function App() {
-  const [name, setName] = useState<string>("");
-  const [cardNumber, setCardNumber] = useState<string>("");
-  const [expDate, setExpDate] = useState<expDate>({ month: "", year: "" });
-  const [verificationNumber, setVerificationNumber] = useState<string>("");
+  // const [name, setName] = useState<string>("");
+  // const [cardNumber, setCardNumber] = useState<string>("");
+  // const [expDate, setExpDate] = useState<expDate>({ month: "", year: "" });
+  // const [verificationNumber, setVerificationNumber] = useState<string>("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // const [formData, setFormData] = useState<formData>();
 
   const removeSpaces = (s: string): string => {
     return s.replace(/\s/g, "");
@@ -38,25 +53,69 @@ function App() {
     return validateInputNumbers(num);
   };
 
-  const formatCardNumber = (number: string): string => {
+  const formatCardNumber = (number: string): void => {
     const strippedNum = removeSpaces(number);
     const devidedNum = strippedNum.match(/.{1,4}/g);
-    return devidedNum ? devidedNum.join(" ").toUpperCase() : "";
+
+    setValue(
+      "cardNumber",
+      `${devidedNum ? devidedNum.join(" ").toUpperCase() : ""}`,
+      { shouldDirty: true, shouldValidate: true }
+    );
   };
 
-  const handleExpDate = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): boolean => {
-    const { name, value } = event.target;
+  // const handleExpDate = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ): boolean => {
+  //   const { name, value } = event.target;
 
-    const regex = /^(\s*|\d+)$/;
-    if (regex.test(value)) {
-      const month = name == "m-date" ? value : expDate.month;
-      const year = name == "y-date" ? value : expDate.year;
-      setExpDate({ month: month, year: year });
-    }
-    return false; //needer for the error recognition (there's never an error, since it's impossible to make one)
+  //   const regex = /^(\s*|\d+)$/;
+  //   if (regex.test(value)) {
+  //     const month = name == "m-date" ? value : expDate.month;
+  //     const year = name == "y-date" ? value : expDate.year;
+  //     setExpDate({ month: month, year: year });
+  //   }
+  //   return false; //needed for the error recognition (false bcs there's never an error, since it's impossible to make one)
+  // };
+
+  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setIsSubmitted(true);
   };
+
+  type FormData = {
+    name: string;
+    cardNumber: string;
+    expDate: {
+      month: string;
+      year: string;
+    };
+    cvc: string;
+  };
+
+  const onSubmit = (data: FormData) => {
+    console.log("form submitted", data);
+    // setIsSubmitted(true);
+  };
+
+  const form = useForm<FormData>({
+    defaultValues: {
+      name: "",
+      cardNumber: "",
+      expDate: { month: "", year: "" },
+      cvc: "",
+    },
+    mode: "onChange",
+  });
+  const { register, control, handleSubmit, formState, setValue } = form;
+  const { errors } = formState;
+  // const {name, ref, onChange, onBlur} = register("name") Bsp
+
+  const name = useWatch({ name: "name", control: control });
+  const cardNumber = useWatch({ name: "cardNumber", control: control });
+  const cvc = useWatch({ name: "cvc", control: control });
+  const expDate = useWatch({ name: "expDate", control: control });
 
   return (
     <div className='app'>
@@ -65,56 +124,60 @@ function App() {
         <Cards
           name={name}
           cardNumber={cardNumber}
-          verificationNumber={verificationNumber}
+          verificationNumber={cvc}
           expDate={expDate}
         />
-        <div className='card-form'>
-          <form className='form'>
-            <InputField
-              label='Cardholder Name'
-              use='name'
-              type='text'
-              placeholder='e.g Jane Appleseed'
-              inputValue={name}
-              validateInput={validateInputString}
-              onChangeState={setName}
-              errorMsg='no numbers allowed'
-            />
-            <InputField
-              label='Card Number'
-              use='cardNr'
-              type={"text"}
-              placeholder='e.g 1234 5678 9123 0000'
-              inputValue={cardNumber}
-              errorMsg={"wrong format, numbers only"}
-              maxLength={16 + 3}
-              onChangeState={setCardNumber}
-              validateInput={validateCardNumber}
-              formatInput={formatCardNumber}
-            />
-            <div className='last-input-row'>
-              <DateInputField
-                label={"label"}
-                inputValue={expDate}
-                maxLength={2}
-                onChange={handleExpDate}
-                validateInput={handleExpDate}
-              />
-              <InputField
-                label='Cvc'
-                use='cvc'
-                type='text'
-                placeholder='e.g 123'
-                inputValue={verificationNumber}
-                errorMsg={"only numbers allowed"}
-                maxLength={3}
-                onChangeState={setVerificationNumber}
-                validateInput={validateCardNumber}
-              />
-            </div>
-            <Button label='Confirm' />
-          </form>
-        </div>
+        {isSubmitted ? (
+          <div className='submitted'>THANK YOU</div>
+        ) : (
+          <div className='card-form'>
+            <form className='form' onSubmit={handleSubmit(onSubmit)} noValidate>
+              <div
+                className={`input inputfield ${
+                  errors.cardNumber ? "error" : ""
+                }`}
+              >
+                <label htmlFor='cardNumber'>Card Number</label>
+                <input
+                  type='text'
+                  placeholder='e.g. 1234 5678 9123 4567'
+                  maxLength={19}
+                  {...register("cardNumber", {
+                    required: "Can't be blank",
+                    validate: {
+                      notNumeric: (inputValue) =>
+                        !validateCardNumber(inputValue) ||
+                        "Card Number not valid",
+                    },
+                    onChange: (e) => {
+                      formatCardNumber(e.target.value);
+                    },
+                  })}
+                />
+                <p className='errorMsg'>{errors.cardNumber?.message}</p>
+              </div>
+
+              <div className='input'>
+                <label htmlFor='name'>Name</label>
+                <input type='text' {...register("name")} />
+              </div>
+              <div className='input'>
+                <label htmlFor='month'>Date Month</label>
+                <input type='text' {...register("expDate.month")} />
+              </div>
+              <div className='input'>
+                <input type='text' {...register("expDate.year")} />
+              </div>
+              <div className='input'>
+                <label htmlFor='cvc'>Cvc</label>
+                <input type='text' {...register("cvc")} />
+              </div>
+
+              <button type='submit'>Submit</button>
+            </form>
+            <DevTool control={control} />
+          </div>
+        )}
       </div>
     </div>
   );
