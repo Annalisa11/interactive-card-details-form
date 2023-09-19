@@ -8,6 +8,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import "./components/Input/Input.scss";
 import "./components/InputField/InputField.scss";
+import SubmittedLogo from "./images/icon-complete.svg";
 
 export interface expDate {
   month: string;
@@ -28,13 +29,7 @@ export interface formData {
 }
 
 function App() {
-  // const [name, setName] = useState<string>("");
-  // const [cardNumber, setCardNumber] = useState<string>("");
-  // const [expDate, setExpDate] = useState<expDate>({ month: "", year: "" });
-  // const [verificationNumber, setVerificationNumber] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // const [formData, setFormData] = useState<formData>();
 
   const removeSpaces = (s: string): string => {
     return s.replace(/\s/g, "");
@@ -64,20 +59,6 @@ function App() {
     );
   };
 
-  // const handleExpDate = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ): boolean => {
-  //   const { name, value } = event.target;
-
-  //   const regex = /^(\s*|\d+)$/;
-  //   if (regex.test(value)) {
-  //     const month = name == "m-date" ? value : expDate.month;
-  //     const year = name == "y-date" ? value : expDate.year;
-  //     setExpDate({ month: month, year: year });
-  //   }
-  //   return false; //needed for the error recognition (false bcs there's never an error, since it's impossible to make one)
-  // };
-
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -96,7 +77,7 @@ function App() {
 
   const onSubmit = (data: FormData) => {
     console.log("form submitted", data);
-    // setIsSubmitted(true);
+    setIsSubmitted(true);
   };
 
   const form = useForm<FormData>({
@@ -128,10 +109,28 @@ function App() {
           expDate={expDate}
         />
         {isSubmitted ? (
-          <div className='submitted'>THANK YOU</div>
+          <div className='form'>
+            <div className='submitted'>
+              <img src={SubmittedLogo} alt='completed submission icon' />
+              <h2>Thank you!</h2>
+              <p>We've added your card details</p>
+            </div>
+          </div>
         ) : (
           <div className='card-form'>
             <form className='form' onSubmit={handleSubmit(onSubmit)} noValidate>
+              <div className={`input inputfield ${errors.name ? "error" : ""}`}>
+                <label htmlFor='name'>Cardholder Name</label>
+                <input
+                  type='text'
+                  placeholder='e.g. Jane Appleseed'
+                  {...register("name", {
+                    required: "Can't be blank",
+                  })}
+                />
+                <p className='errorMsg'>{errors.name?.message}</p>
+              </div>
+
               <div
                 className={`input inputfield ${
                   errors.cardNumber ? "error" : ""
@@ -147,7 +146,7 @@ function App() {
                     validate: {
                       notNumeric: (inputValue) =>
                         !validateCardNumber(inputValue) ||
-                        "Card Number not valid",
+                        "Wrong format, numbers only",
                     },
                     onChange: (e) => {
                       formatCardNumber(e.target.value);
@@ -157,23 +156,76 @@ function App() {
                 <p className='errorMsg'>{errors.cardNumber?.message}</p>
               </div>
 
-              <div className='input'>
-                <label htmlFor='name'>Name</label>
-                <input type='text' {...register("name")} />
-              </div>
-              <div className='input'>
-                <label htmlFor='month'>Date Month</label>
-                <input type='text' {...register("expDate.month")} />
-              </div>
-              <div className='input'>
-                <input type='text' {...register("expDate.year")} />
-              </div>
-              <div className='input'>
-                <label htmlFor='cvc'>Cvc</label>
-                <input type='text' {...register("cvc")} />
+              <div className='last-input-row'>
+                <div className='date-inputfields'>
+                  <label htmlFor='month'>Exp.Date (MM/YY)</label>
+                  <div
+                    className={`input inputfield ${
+                      errors.expDate?.month ? "error" : ""
+                    }`}
+                  >
+                    <input
+                      type='text'
+                      placeholder='MM'
+                      maxLength={2}
+                      {...register("expDate.month", {
+                        required: "Can't be blank",
+                        validate: {
+                          notNumeric: (inputValue) =>
+                            !validateCardNumber(inputValue) ||
+                            "Wrong format, numbers only",
+                        },
+                      })}
+                    />
+                  </div>
+
+                  <div
+                    className={`input inputfield ${
+                      errors.expDate?.year ? "error" : ""
+                    }`}
+                  >
+                    <input
+                      type='text'
+                      placeholder='YY'
+                      maxLength={2}
+                      {...register("expDate.year", {
+                        required: "Can't be blank",
+                        validate: {
+                          notNumeric: (inputValue) =>
+                            !validateCardNumber(inputValue) ||
+                            "Wrong format, numbers only",
+                        },
+                      })}
+                    />
+                  </div>
+                  <p className='errorMsg'>
+                    {errors.expDate?.month?.message ||
+                      errors.expDate?.year?.message}
+                  </p>
+                </div>
+
+                <div
+                  className={`input inputfield ${errors.cvc ? "error" : ""}`}
+                >
+                  <label htmlFor='cvc'>Cvc</label>
+                  <input
+                    type='text'
+                    placeholder='e.g. 123'
+                    maxLength={3}
+                    {...register("cvc", {
+                      required: "Can't be blank",
+                      validate: {
+                        notNumeric: (inputValue) =>
+                          !validateCardNumber(inputValue) ||
+                          "Wrong format, numbers only",
+                      },
+                    })}
+                  />
+                  <p className='errorMsg'>{errors.cvc?.message}</p>
+                </div>
               </div>
 
-              <button type='submit'>Submit</button>
+              <Button label='Confirm' />
             </form>
             <DevTool control={control} />
           </div>

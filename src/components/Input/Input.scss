@@ -1,6 +1,8 @@
 @import "../../General.scss";
 
 .input {
+  padding: 0.5rem 0;
+
   input {
     font-size: large;
     padding: 0.5em;
@@ -17,5 +19,31 @@
       border-color: $gradient-one;
       outline: 0;
     }
+
+    @include inputFieldLabel;
+  }
+
+  &.date-inputfields.error,
+  &.error {
+    @include errorBorder;
+  }
+}
+
+p.errorMsg {
+  color: $primary-red;
+  font-size: small;
+}
+
+.date-inputfields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 10px;
+  width: 100%;
+  align-items: flex-end;
+
+  p,
+  label {
+    width: 100%;
+    grid-column: span 2;
   }
 }
