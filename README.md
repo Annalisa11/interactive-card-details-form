@@ -30,7 +30,14 @@ Users should be able to:
   
 ### Screenshots
 
-<img src="./src/design/Screenshots/design-desktop.png" alt="drawing" width="400" display="inline block"/> <img src="./src/design/Screenshots/design-desktop-i.png" alt="drawing" width="400" display="inline block"/><img src="./src/design/Screenshots/design-mobile.png" alt="drawing" width="200" display="inline block"/>
+<p style="vertical-align: top">
+<img src="./src/design/Screenshots/design-desktop.png" style=" width: 400px;">
+<img src="./src/design/Screenshots/design-desktop-i.png"  style="width: 400px;">
+<img src="./src/design/Screenshots/submit-design.png"  style="width: 400px;">
+</p>
+<p>
+  <img src="./src/design/Screenshots/design-mobile.png" style=" width: 200px;">
+</p>
 
 ## ⚒️ My process
 
