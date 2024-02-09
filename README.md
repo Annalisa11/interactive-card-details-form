@@ -51,6 +51,64 @@ Users should be able to:
 
 ### What I learned
 
+I learned how to handle forms in react over multiple components and levels.  
+Particularly, the react-hook-form library.
+
+```tsx
+  const form = useForm<FormData>({
+    defaultValues: {
+      name: '',
+      cardNumber: '',
+      expDate: { month: '', year: '' },
+      cvc: '',
+    },
+    mode: 'onChange',
+  });
+  const { register, control, handleSubmit, formState, setValue } = form;
+  const { errors } = formState;
+  // const {name, ref, onChange, onBlur} = register("name") Bsp
+
+  const name = useWatch({ name: 'name', control: control });
+```
+```jsx
+<FormProvider {...form}>
+  <InputField
+  label='Card Number'
+  placeholder='e.g. 1234 5678 9123 4567'
+  maxLength={19}
+  name='cardNumber'
+  validation={validateCardNumber}
+  formatInput={formatCardNumber}
+  error={errors.cardNumber}
+  />
+</FormProvider>
+```
+And how to use validation and form data in form inputs.
+```tsx
+ const { register } = useFormContext();
+  return (
+    <div className={`input ${error?.message ? "error" : ""}`}>
+      <label htmlFor={name}>{label}</label>
+      <input
+        type='text'
+        placeholder={placeholder}
+        maxLength={maxLength}
+        {...register(name, {
+          required: "Can't be blank",
+          validate: (inputValue) => {
+            if (validation && validation(inputValue)) {
+              return "Wrong format, numbers only";
+            }
+          },
+          onChange: (e) => {
+            if (formatInput) formatInput(e.target.value);
+          },
+        })}
+      />
+      <p className='errorMsg'>{error?.message}</p>
+    </div>
+  );
+```
 
 ## 👩‍💻 Author
 
