@@ -66,7 +66,6 @@ Particularly, the react-hook-form library.
   });
   const { register, control, handleSubmit, formState, setValue } = form;
   const { errors } = formState;
-  // const {name, ref, onChange, onBlur} = register("name") Bsp
 
   const name = useWatch({ name: 'name', control: control });
 ```
