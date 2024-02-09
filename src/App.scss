@@ -1,4 +1,4 @@
-@import "./General.scss";
+@import './General.scss';
 
 .app {
   flex-direction: row;
@@ -26,13 +26,13 @@
 
   @media (min-width: 600px) {
     flex-direction: row;
-    width: 70rem;
-    height: 40rem;
+    width: 50rem;
+    height: 30rem;
   }
 }
 
 .banner {
-  background-image: url("./images/bg-main-mobile.png");
+  background-image: url('./images/bg-main-mobile.png');
   background-size: cover;
   background-color: blue;
   background-repeat: no-repeat;
@@ -43,9 +43,9 @@
     height: 25rem;
   }
   @media (min-width: 600px) {
-    background-image: url("./images/bg-main-desktop.png");
+    background-image: url('./images/bg-main-desktop.png');
     border-radius: 20px 0 0 20px;
-    height: 40rem;
+    height: 30rem;
     width: 35%;
   }
 }
@@ -57,7 +57,7 @@
 
   @media (min-width: 600px) {
     width: 50%;
-    margin: auto 6rem auto auto;
+    margin: auto 4rem auto auto;
   }
 }
 
@@ -72,17 +72,37 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 10px;
-  align-items: end;
+  align-items: start;
 }
 
 .submitted {
-  text-align: center;
-
+  margin: auto 0;
   p {
     color: $neutral-light;
+  }
+
+  &-form {
+    align-items: center;
+    text-align: center;
+    margin: 0 1rem;
+    width: 100%;
+
+    @media (min-width: 600px) {
+      width: 50%;
+      margin: auto 4rem auto auto;
+    }
   }
 }
 
 h2 {
   text-transform: uppercase;
+}
+
+.date-inputfields {
+  @include inputFieldLabel;
+  padding: 0.5rem 0;
+
+  .input {
+    padding: 0;
+  }
 }

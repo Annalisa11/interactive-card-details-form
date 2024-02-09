@@ -1,71 +1,47 @@
-import { useState } from "react";
 import "./InputField.scss";
-import Input from "../Input/Input";
+import "../Input/Input.scss";
+import { FieldError, useFormContext } from "react-hook-form";
 
 type Props = {
-  label?: string;
-  placeholder?: string;
-  use: string;
-  type: string;
-  inputValue: string;
-  errorMsg?: string;
+  label: string;
+  placeholder: string;
   maxLength?: number;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangeState?: React.Dispatch<React.SetStateAction<string>>;
-  validateInput?: (input: string) => boolean;
-  formatInput?: (input: string) => string;
+  name: string;
+  validation?: (value: string) => boolean;
+  formatInput?: (value: string) => void;
+  error: FieldError | undefined;
 };
 
 const InputField = ({
   label,
   placeholder,
-  use,
-  type,
-  inputValue,
-  errorMsg,
   maxLength,
-  onChange,
-  onChangeState,
-  validateInput,
+  validation,
+  error,
+  name,
   formatInput,
 }: Props): JSX.Element => {
-  const [error, setError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>(errorMsg ?? "");
-
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let eventValue = event.target.value;
-
-    if (validateInput) {
-      setError(validateInput(eventValue));
-      setErrorMessage(errorMsg ?? "");
-    }
-
-    if (formatInput) eventValue = formatInput(eventValue);
-
-    if (onChangeState) onChangeState(eventValue);
-    else if (onChange) onChange(event);
-  };
-
-  const handleBlankInput = () => {
-    if (inputValue === "") {
-      setErrorMessage("can't be blank");
-      setError(true);
-    }
-  };
-
+  const { register } = useFormContext();
   return (
-    <div className={`inputfield ${error ? "error" : ""}`}>
-      <label htmlFor={`${use}`}>{label}</label>
-      <Input
-        type={`${type}`}
-        use={`${use}`}
-        placeholder={`${placeholder}`}
-        inputValue={inputValue}
+    <div className={`input ${error?.message ? "error" : ""}`}>
+      <label htmlFor={name}>{label}</label>
+      <input
+        type='text'
+        placeholder={placeholder}
         maxLength={maxLength}
-        onChange={handleInput}
-        onBlur={handleBlankInput}
+        {...register(name, {
+          required: "Can't be blank",
+          validate: (inputValue) => {
+            if (validation && validation(inputValue)) {
+              return "Wrong format, numbers only";
+            }
+          },
+          onChange: (e) => {
+            if (formatInput) formatInput(e.target.value);
+          },
+        })}
       />
-      {error && <div className='errorMsg'>{errorMessage}</div>}
+      <p className='errorMsg'>{error?.message}</p>
     </div>
   );
 };
